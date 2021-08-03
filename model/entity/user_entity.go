@@ -7,4 +7,5 @@ type User struct {
 	Username    string	`gorm:"unique"`
 	Email   	string
 	Password 	string
+	AcapyToken	string
 }
