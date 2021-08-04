@@ -3,15 +3,26 @@ package router
 import (
 	"github.com/airoasis/auth/handler"
 	"github.com/gin-gonic/gin"
+	"github.com/heptiolabs/healthcheck"
 )
 
 func SetupRouter() *gin.Engine {
+	health := healthcheck.NewHandler()
 	r := gin.Default()
 
-	r.POST("users", handler.CreateUser)
-	r.GET("users/:id", handler.GetUserByID)
-	r.DELETE("users/:id", handler.DeleteUser)
-	r.POST("users/oauth", handler.GetUserByUsernameAndPassword)
+	ug := r.Group("/users")
+	{
+		ug.POST("", handler.CreateUser)
+		ug.GET("/:id", handler.GetUserByID)
+		ug.DELETE("/:id", handler.DeleteUser)
+		ug.POST("/oauth", handler.GetUserByUsernameAndPassword)
+	}
+
+	hg := r.Group("/health")
+	{
+		hg.GET("/live", gin.WrapF(health.LiveEndpoint))
+		hg.GET("/ready", gin.WrapF(health.ReadyEndpoint))
+	}
 
 	return r
 }
