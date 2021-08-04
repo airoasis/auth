@@ -48,7 +48,7 @@ func provisionAcaPyAgent(walletName, label string) (token string, err error){
 		SetBody(map[string]interface{}{
 			"wallet_name": walletName,
 			"label": label,
-		}).Post("http://localhost:8081/wallet")
+		}).Post("http://acapy-controller:8080/wallet")
 	if err != nil {
 		log.Error().Err(err).Msg("ERROR sending the request")
 		return

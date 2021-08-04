@@ -18,7 +18,7 @@ type DBConfig struct {
 
 func BuildDBConfig() *DBConfig {
 	dbConfig := DBConfig{
-		Host:     "localhost",
+		Host:     "postgres",
 		Port:     5432,
 		User:     "postgres",
 		Password: "postgres",
