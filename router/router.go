@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/airoasis/auth/handler"
+	"github.com/airoasis/user/handler"
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/heptiolabs/healthcheck"

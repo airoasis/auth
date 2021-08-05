@@ -2,8 +2,8 @@ package repository
 
 import (
 	"fmt"
-	"github.com/airoasis/auth/config"
-	"github.com/airoasis/auth/model/entity"
+	"github.com/airoasis/user/config"
+	"github.com/airoasis/user/model/entity"
 )
 
 //GetAllUsers Fetch all user data

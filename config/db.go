@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/airoasis/auth/model/entity"
+	"github.com/airoasis/user/model/entity"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )

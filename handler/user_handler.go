@@ -2,9 +2,9 @@ package handler
 
 import (
 	"fmt"
-	"github.com/airoasis/auth/model"
-	"github.com/airoasis/auth/model/entity"
-	"github.com/airoasis/auth/repository"
+	"github.com/airoasis/user/model"
+	"github.com/airoasis/user/model/entity"
+	"github.com/airoasis/user/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
 	"github.com/jinzhu/copier"

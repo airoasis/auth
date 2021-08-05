@@ -1,4 +1,4 @@
-module github.com/airoasis/auth
+module github.com/airoasis/user
 
 go 1.16
 

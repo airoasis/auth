@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/airoasis/auth/config"
-	"github.com/airoasis/auth/router"
+	"github.com/airoasis/user/config"
+	"github.com/airoasis/user/router"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
