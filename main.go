@@ -13,8 +13,6 @@ import (
 	"time"
 )
 
-var err error
-
 func main() {
 	//Set a logger with zerolog
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
