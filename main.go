@@ -1,25 +1,46 @@
 package main
 
 import (
-	"fmt"
 	"github.com/airoasis/auth/config"
-	"github.com/airoasis/auth/model/entity"
 	"github.com/airoasis/auth/router"
+	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
+	"time"
 )
 
 var err error
 
 func main() {
-	config.DB, err = gorm.Open(postgres.Open(config.DbDSN(config.BuildDBConfig())), &gorm.Config{})
+	//Set a logger with zerolog
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if gin.IsDebugging() {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out:os.Stderr,TimeFormat: time.RFC3339})
+
+	//Load application config
+	err := config.LoadConfig()
 	if err != nil {
-		fmt.Println("Status:", err)
+		log.Fatal().Msgf("cannot load config: %v", err)
 	}
 
-	config.DB.AutoMigrate(&entity.User{})
+	//Connect DB
+	config.DB, err = gorm.Open(postgres.Open(config.GetDSN()), &gorm.Config{})
+	if err != nil {
+		log.Fatal().Msgf("Status: %v", err)
+	}
 
+	//Migrate the schema (Create the user table)
+	config.MigrateSchema()
+
+	//Start the gin server
+	log.Info().Msgf("Starting the server")
 	r := router.SetupRouter()
-	r.Run()
+	r.Run(":" + viper.GetString("server.port"))
 }
 

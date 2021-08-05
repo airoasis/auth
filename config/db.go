@@ -2,38 +2,24 @@ package config
 
 import (
 	"fmt"
+	"github.com/airoasis/auth/model/entity"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
-// DBConfig represents db configuration
-type DBConfig struct {
-	Host     string
-	Port     int
-	User     string
-	DBName   string
-	Password string
-}
-
-func BuildDBConfig() *DBConfig {
-	dbConfig := DBConfig{
-		Host:     "postgres",
-		Port:     5432,
-		User:     "postgres",
-		Password: "postgres",
-		DBName:   "postgres",
-	}
-	return &dbConfig
-}
-
-func DbDSN(dbConfig *DBConfig) string {
+func GetDSN() string {
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Seoul",
-		dbConfig.Host,
-		dbConfig.User,
-		dbConfig.Password,
-		dbConfig.DBName,
-		dbConfig.Port,
+		viper.GetString("database.host"),
+		viper.GetString("database.user"),
+		viper.GetString("database.password"),
+		viper.GetString("database.dbname"),
+		viper.GetInt("database.port"),
 	)
+}
+
+func MigrateSchema() {
+	DB.AutoMigrate(&entity.User{})
 }
