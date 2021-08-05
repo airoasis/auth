@@ -27,7 +27,7 @@ func main() {
 		log.Fatal().Msgf("cannot load config: %v", err)
 	}
 
-	//Connect DB
+	//Connect to DB
 	config.DB, err = gorm.Open(postgres.Open(config.GetDSN()), &gorm.Config{})
 	if err != nil {
 		log.Fatal().Msgf("Status: %v", err)
