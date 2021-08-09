@@ -85,9 +85,23 @@ func GetUserByUsernameAndPassword(c *gin.Context) {
 
 //GetUserByID ... Get the user by id
 func GetUserByID(c *gin.Context) {
-	id := c.Params.ByName("id")
+	id := c.Param("id")
 	var user entity.User
 	err := repository.GetUserByID(&user, id)
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		var userResponseDTO model.UserResponseDTO
+		copier.Copy(&userResponseDTO, user)
+		c.JSON(http.StatusOK, userResponseDTO)
+	}
+}
+
+//GetUserByUsername ... Get the user by username
+func GetUserByUsername(c *gin.Context) {
+	username := c.Query("username")
+	var user entity.User
+	err := repository.GetUserByUsername(&user, username)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
@@ -100,7 +114,7 @@ func GetUserByID(c *gin.Context) {
 //DeleteUser ... Delete the user
 func DeleteUser(c *gin.Context) {
 	var user entity.User
-	id := c.Params.ByName("id")
+	id := c.Param("id")
 	err := repository.DeleteUser(&user, id)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
